@@ -361,9 +361,9 @@
 <section class="hero" id="home">
   <div class="hero-grid">
     <div>
-      <div class="hero-badge">Open to Opportunities — Perth, WA</div>
+      <div class="hero-badge">Available for Opportunities — Perth, WA</div>
       <h1>Yashasvi<br/><span>Sharma</span></h1>
-      <p class="hero-sub">Business Analyst & Data Specialist turning complex data into governance frameworks, actionable insights, and business outcomes.</p>
+      <p class="hero-sub">Business Analyst & Data Specialist — Master of Business Analytics graduate, turning complex data into governance frameworks, actionable insights, and business outcomes. Currently building projects and open to new opportunities.</p>
       <div class="hero-tags">
         <span class="hero-tag">Business Analysis</span>
         <span class="hero-tag">Data Governance</span>
@@ -373,7 +373,7 @@
         <span class="hero-tag">Stakeholder Engagement</span>
       </div>
       <div class="hero-btns">
-        <a href="#projects" class="btn-primary">View My Work</a>
+        <a href="#projects" class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'});return false;">View My Work ↓</a>
         <a href="#contact" class="btn-outline">Contact Me</a>
       </div>
     </div>
@@ -430,7 +430,7 @@
         <div class="about-highlights">
           <div class="highlight-item"><div class="hi-icon">🎓</div><div><div class="hi-label">Education</div><div class="hi-value">Masters — Business Analytics, ECU</div></div></div>
           <div class="highlight-item"><div class="hi-icon">📍</div><div><div class="hi-label">Location</div><div class="hi-value">Perth, Western Australia</div></div></div>
-          <div class="highlight-item"><div class="hi-icon">🏢</div><div><div class="hi-label">Current Role</div><div class="hi-value">Data Analyst Intern, UGL Resources</div></div></div>
+          <div class="highlight-item"><div class="hi-icon">🏢</div><div><div class="hi-label">Experience</div><div class="hi-value">BA & Data Analytics — Govt & Infrastructure</div></div></div>
           <div class="highlight-item"><div class="hi-icon">🎯</div><div><div class="hi-label">Target Role</div><div class="hi-value">Business Analyst — Data & Analytics</div></div></div>
         </div>
       </div>
@@ -450,7 +450,7 @@
         <div class="timeline-card">
           <div class="tc-header">
             <div class="tc-role">Data Analyst Intern</div>
-            <div class="tc-date">May 2025 – Current</div>
+            <div class="tc-date">May 2025 – Dec 2025</div>
           </div>
           <div class="tc-company">UGL Resources — Engineering & Infrastructure</div>
           <ul class="tc-bullets">
@@ -652,14 +652,11 @@
         <h2 class="section-title">Let's Connect</h2>
         <p class="section-sub">Open to Business Analyst and Data & Analytics roles in Perth, WA. Always happy to connect, collaborate, or have a conversation.</p>
         <div class="contact-cards">
-          <a href="mailto:yashasvi.jpr@icloud.com" class="contact-card">
+          <a href="/cdn-cgi/l/email-protection#fa839b89929b898c93d4908a88ba939996958f9ed4999597" class="contact-card">
             <div class="cc-icon">✉️</div>
-            <div><div class="cc-label">Email</div><div class="cc-value">yashasvi.jpr@icloud.com</div></div>
+            <div><div class="cc-label">Email</div><div class="cc-value"><span class="__cf_email__" data-cfemail="d2abb3a1bab3a1a4bbfcb8a2a092bbb1bebda7b6fcb1bdbf">[email&#160;protected]</span></div></div>
           </a>
-          <a href="tel:+61468386330" class="contact-card">
-            <div class="cc-icon">📞</div>
-            <div><div class="cc-label">Phone</div><div class="cc-value">+61 468 386 330</div></div>
-          </a>
+
           <a href="https://www.linkedin.com/in/yashasha" target="_blank" class="contact-card">
             <div class="cc-icon">💼</div>
             <div><div class="cc-label">LinkedIn</div><div class="cc-value">linkedin.com/in/yashasha</div></div>
@@ -671,9 +668,9 @@
         </div>
       </div>
       <div class="contact-form-note">
-        <p>I'm currently completing my Master of Business Analytics at Edith Cowan University (graduating July 2025) while working as a Data Analyst Intern at UGL Resources.</p>
+        <p>I recently completed my Master of Business Analytics at Edith Cowan University (July 2025) and bring hands-on experience across government and private infrastructure sectors — currently building personal projects and open to new opportunities in Business Analysis and Data & Analytics.</p>
         <p>With experience spanning data governance, process mapping, requirements analysis, and stakeholder engagement across both government and private infrastructure sectors — I'm well placed to contribute from day one in a BA role.</p>
-        <a href="mailto:yashasvi.jpr@icloud.com" class="btn-primary" style="display:inline-block">Send Me an Email →</a>
+        <a href="/cdn-cgi/l/email-protection#443d25372c2537322d6a2e3436042d27282b31206a272b29" class="btn-primary" style="display:inline-block">Send Me an Email →</a>
       </div>
     </div>
   </div>
@@ -768,9 +765,9 @@
         <div class="chart-card"><div class="chart-title">Projects by Terminal</div><canvas id="terminalChart" height="220"></canvas></div>
         <div class="chart-card"><div class="chart-title">Status Breakdown</div><canvas id="statusChart" height="220"></canvas></div>
       </div>
-      <div class="dash-table">
+      <div class="dash-table" style="max-height:280px;overflow-y:auto;">
         <table>
-          <thead><tr><th>Project No.</th><th>Project Name</th><th>Terminal</th><th>Type</th><th>Status</th></tr></thead>
+          <thead><tr><th style="position:sticky;top:0;z-index:1;background:#0f2d4a">Project No.</th><th style="position:sticky;top:0;z-index:1;background:#0f2d4a">Project Name</th><th style="position:sticky;top:0;z-index:1;background:#0f2d4a">Terminal</th><th style="position:sticky;top:0;z-index:1;background:#0f2d4a">Type</th><th style="position:sticky;top:0;z-index:1;background:#0f2d4a">Status</th></tr></thead>
           <tbody id="trackerTableBody"></tbody>
         </table>
       </div>
@@ -834,7 +831,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ===== MODAL CONTROLS =====
 function openModal(id) {
   document.getElementById(id).classList.add('active');
@@ -939,26 +936,39 @@ function initTrackerDashboard() {
   if (terminalChart) terminalChart.destroy();
   if (statusChart) statusChart.destroy();
 
+  // Horizontal bar chart for terminals
   const terminals = {};
   trackerData.forEach(d => { terminals[d.terminal.replace(' Terminal','')] = (terminals[d.terminal.replace(' Terminal','')]||0)+1; });
   terminalChart = new Chart(document.getElementById('terminalChart'), {
     type: 'bar',
     data: {
       labels: Object.keys(terminals),
-      datasets: [{ label: 'Projects', data: Object.values(terminals), backgroundColor: '#1a5f8a', borderRadius: 6 }]
+      datasets: [{ label: 'Projects', data: Object.values(terminals),
+        backgroundColor: ['#0f2d4a','#1a5f8a','#2a7faa','#e8a020','#d4890a'],
+        borderRadius: 6
+      }]
     },
-    options: { plugins:{legend:{display:false}}, responsive:true, maintainAspectRatio:false, scales:{x:{ticks:{font:{size:10}}}} }
+    options: {
+      indexAxis: 'y',
+      plugins:{ legend:{display:false} },
+      responsive:true, maintainAspectRatio:false,
+      scales:{ x:{ grid:{color:'#f0f0f0'}, ticks:{font:{size:11}} }, y:{ ticks:{font:{size:11}} } }
+    }
   });
 
+  // Polar area chart for status - visually distinct from doughnut
   const statuses = {};
   trackerData.forEach(d => { statuses[d.status] = (statuses[d.status]||0)+1; });
   statusChart = new Chart(document.getElementById('statusChart'), {
-    type: 'doughnut',
+    type: 'polarArea',
     data: {
       labels: Object.keys(statuses),
-      datasets: [{ data: Object.values(statuses), backgroundColor: ['#0f2d4a','#1a5f8a','#e8a020','#16a34a','#6b7280'], borderWidth: 2, borderColor: '#fff' }]
+      datasets: [{ data: Object.values(statuses),
+        backgroundColor: ['rgba(15,45,74,0.8)','rgba(26,95,138,0.8)','rgba(232,160,32,0.8)','rgba(22,163,74,0.8)','rgba(107,114,128,0.8)'],
+        borderColor: '#fff', borderWidth: 2
+      }]
     },
-    options: { plugins:{legend:{position:'bottom'}}, responsive:true, maintainAspectRatio:false }
+    options: { plugins:{legend:{position:'bottom', labels:{font:{size:11}}}}, responsive:true, maintainAspectRatio:false }
   });
 }
 
@@ -985,11 +995,4 @@ function filterTracker() {
   const status = document.getElementById('statusFilter').value;
   const type = document.getElementById('typeFilter').value;
   let filtered = trackerData;
-  if (terminal !== 'all') filtered = filtered.filter(d => d.terminal.includes(terminal));
-  if (status !== 'all') filtered = filtered.filter(d => d.status === status);
-  if (type !== 'all') filtered = filtered.filter(d => d.type === type);
-  renderTrackerTable(filtered);
-}
-</script>
-</body>
-</html>
+  i
