@@ -476,6 +476,11 @@ footer span{color:var(--accent);}
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Disable all Chart.js animations globally
+Chart.defaults.animation = false;
+Chart.defaults.animations = false;
+Chart.defaults.transitions = {};
+
 // MODAL FUNCTIONS
 function openModal(id) {
   document.getElementById(id).style.display = 'flex';
@@ -537,14 +542,14 @@ function initCost() {
   cBar=new Chart(document.getElementById('costBarChart'),{
     type:'bar',
     data:{labels:sg.map(function(x){return x[0].length>16?x[0].substr(0,16)+'…':x[0];}),datasets:[{data:sg.map(function(x){return x[1];}),backgroundColor:'#1a5f8a',borderRadius:4}]},
-    options:{plugins:{legend:{display:false}},scales:{y:{ticks:{callback:function(v){return '$'+Math.round(v/1000)+'k';}}}},responsive:true,maintainAspectRatio:false}
+    options:{animation:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:function(v){return '$'+Math.round(v/1000)+'k';}}}},responsive:true,maintainAspectRatio:false}
   });
   var ph={};
   costData.forEach(function(x){ ph[x.ph]=(ph[x.ph]||0)+x.c; });
   cPie=new Chart(document.getElementById('costPieChart'),{
     type:'doughnut',
     data:{labels:Object.keys(ph),datasets:[{data:Object.values(ph),backgroundColor:['#0f2d4a','#1a5f8a','#e8a020'],borderWidth:2,borderColor:'#fff'}]},
-    options:{plugins:{legend:{position:'bottom'}},responsive:true,maintainAspectRatio:false}
+    options:{animation:false,plugins:{legend:{position:'bottom'}},responsive:true,maintainAspectRatio:false}
   });
 }
 function filterCost() {
@@ -566,14 +571,14 @@ function initTracker() {
   tBar=new Chart(document.getElementById('termChart'),{
     type:'bar',
     data:{labels:Object.keys(tm),datasets:[{data:Object.values(tm),backgroundColor:['#0f2d4a','#1a5f8a','#2a7faa','#e8a020','#d4890a'],borderRadius:4}]},
-    options:{indexAxis:'y',plugins:{legend:{display:false}},responsive:true,maintainAspectRatio:false}
+    options:{animation:false,indexAxis:'y',plugins:{legend:{display:false}},responsive:true,maintainAspectRatio:false}
   });
   var st={};
   trackerData.forEach(function(x){st[x.s]=(st[x.s]||0)+1;});
   tPolar=new Chart(document.getElementById('statChart'),{
     type:'polarArea',
     data:{labels:Object.keys(st),datasets:[{data:Object.values(st),backgroundColor:['rgba(15,45,74,0.8)','rgba(26,95,138,0.8)','rgba(232,160,32,0.8)','rgba(22,163,74,0.8)','rgba(107,114,128,0.8)'],borderColor:'#fff',borderWidth:2}]},
-    options:{plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},responsive:true,maintainAspectRatio:false}
+    options:{animation:false,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},responsive:true,maintainAspectRatio:false}
   });
 }
 function pillCls(s) {
