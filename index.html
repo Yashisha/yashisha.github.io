@@ -105,12 +105,12 @@ footer{background:#08192b;color:rgba(255,255,255,0.4);text-align:center;padding:
 footer span{color:var(--accent);}
 
 /* MODALS */
-.overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,20,35,0.78);z-index:9999;overflow-y:auto;padding:30px 16px;}
-.mbox{background:white;border-radius:20px;width:100%;max-width:1040px;margin:0 auto 40px;box-shadow:0 30px 80px rgba(0,0,0,0.3);}
-.mhdr{display:flex;justify-content:space-between;align-items:center;padding:20px 26px;border-bottom:1px solid var(--border);border-radius:20px 20px 0 0;background:white;position:sticky;top:0;z-index:10;}
+.overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,20,35,0.78);z-index:9999;overflow:hidden;padding:20px 16px;align-items:center;justify-content:center;}
+.mbox{background:white;border-radius:20px;width:100%;max-width:1040px;margin:0 auto;box-shadow:0 30px 80px rgba(0,0,0,0.3);display:flex;flex-direction:column;max-height:calc(100vh - 40px);overflow:hidden;}
+.mhdr{display:flex;justify-content:space-between;align-items:center;padding:20px 26px;border-bottom:1px solid var(--border);border-radius:20px 20px 0 0;background:white;flex-shrink:0;}
 .mhdr-title{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--navy);}
 .mcls{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:none;cursor:pointer;font-size:1rem;color:var(--muted);display:flex;align-items:center;justify-content:center;}
-.mbody{padding:22px 26px;}
+.mbody{padding:22px 26px;overflow-y:auto;flex:1;}
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
 @media(max-width:600px){.kpi-row{grid-template-columns:1fr 1fr;}}
 .kpi{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
@@ -335,7 +335,7 @@ footer span{color:var(--accent);}
         <h2 class="sec-title" style="color:white">Let's Connect</h2>
         <p style="color:rgba(255,255,255,0.6);font-size:0.97rem;line-height:1.7;margin-bottom:30px">Open to Business Analyst and Data &amp; Analytics roles in Perth, WA. Always happy to connect, collaborate, or have a conversation.</p>
         <div class="clinks">
-          <a href="mailto:yashasvi.jpr@icloud.com" class="clink"><div class="cl-ico">✉️</div><div><div class="cl-lbl">Email</div><div class="cl-val">yashasvi.jpr@icloud.com</div></div></a>
+          <a href="/cdn-cgi/l/email-protection#c5bca4b6ada4b6b3acebafb5b785aca6a9aab0a1eba6aaa8" class="clink"><div class="cl-ico">✉️</div><div><div class="cl-lbl">Email</div><div class="cl-val"><span class="__cf_email__" data-cfemail="0e776f7d666f7d786720647e7c4e676d62617b6a206d6163">[email&#160;protected]</span></div></div></a>
           <a href="https://www.linkedin.com/in/yashasha" target="_blank" class="clink"><div class="cl-ico">💼</div><div><div class="cl-lbl">LinkedIn</div><div class="cl-val">linkedin.com/in/yashasha</div></div></a>
           <a href="https://github.com/yashisha" target="_blank" class="clink"><div class="cl-ico">🐙</div><div><div class="cl-lbl">GitHub</div><div class="cl-val">github.com/yashisha</div></div></a>
         </div>
@@ -343,7 +343,7 @@ footer span{color:var(--accent);}
       <div class="cnote">
         <p>I recently completed my Master of Business Analytics at Edith Cowan University (July 2025) and bring hands-on experience across government and private infrastructure sectors.</p>
         <p>Currently building personal projects and open to new opportunities in Business Analysis and Data &amp; Analytics — particularly roles where my work can speak for itself.</p>
-        <a href="mailto:yashasvi.jpr@icloud.com" class="btn-gold" style="display:inline-block">Send Me an Email →</a>
+        <a href="/cdn-cgi/l/email-protection#9fe6feecf7feece9f6b1f5efeddff6fcf3f0eafbb1fcf0f2" class="btn-gold" style="display:inline-block">Send Me an Email →</a>
       </div>
     </div>
   </div>
@@ -475,10 +475,10 @@ footer span{color:var(--accent);}
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // MODAL FUNCTIONS
 function openModal(id) {
-  document.getElementById(id).style.display = 'block';
+  document.getElementById(id).style.display = 'flex';
   document.body.style.overflow = 'hidden';
   if (id === 'costModal') { setTimeout(initCost, 200); }
   if (id === 'trackerModal') { setTimeout(initTracker, 200); }
@@ -587,12 +587,4 @@ function filterTracker() {
   var sf=document.getElementById('statFilter').value;
   var tyf=document.getElementById('typeFilter').value;
   var f=trackerData.filter(function(x){
-    return (tf==='all'||x.t.indexOf(tf)>-1)&&(sf==='all'||x.s===sf)&&(tyf==='all'||x.ty===tyf);
-  });
-  document.getElementById('trackerTBody').innerHTML=f.map(function(x){
-    return '<tr><td><strong>'+x.id+'</strong></td><td>'+x.n+'</td><td>'+x.t+'</td><td>'+x.ty+'</td><td><span class="'+pillCls(x.s)+'">'+x.s+'</span></td></tr>';
-  }).join('');
-}
-</script>
-</body>
-</html>
+    return (tf==='all'||x.t.indexOf(tf)>-1)&&(sf==='all'||x.s===sf)&&(tyf==='all
