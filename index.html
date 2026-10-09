@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Interactive portfolio of Yashasvi Sharma, Data Analyst in Perth: SQL, Power BI, Tableau and reporting automation.">
+<meta name="theme-color" content="#13213C">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yashasvi Sharma | Data Analyst">
+<meta property="og:description" content="An interactive portfolio. Explore 6 areas, earn XP, and play the data mini-games.">
+<meta property="og:url" content="https://yashisha.github.io/">
+<meta property="og:image" content="https://yashisha.github.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yashisha.github.io/og-image.png">
+<title>Yashasvi Sharma | Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: RPG-style portfolio — title screen → HUD + 6-node world map → modal "areas" with mini-games. Deliberately single light theme (neo-brutalist candy palette). */
+:root{
+  color-scheme:light;
+  /* Perth palette: navy ink, WA sky blue, Pilbara red earth, sand, lilac */
+  --ink:#13213C; --muted:#4E5B73; --paper:#FFFFFF; --bg:#EDF3FA; --dot:#C2D3EA;
+  --yellow:#A8D5F2; --sand:#F4CF7A; --pink:#C9B8F0; --orange:#DD5B36; --teal:#2F5DA8; --teal-soft:#DCE7F7; --cream:#FDF1DC;
+  --f:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Space Mono",ui-monospace,Menlo,monospace;
+  --b:3px solid var(--ink); --sh:5px 5px 0 var(--ink); --r:16px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);background-image:radial-gradient(var(--dot) 1.4px,transparent 1.6px);background-size:26px 26px;color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font-family:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.kbd{display:inline-block;border:2px solid var(--ink);border-radius:6px;padding:0 6px;font-size:12px;font-weight:600;line-height:1.5;background:var(--paper)}
+
+/* ---------- title screen ---------- */
+#title{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 18px 90px;gap:18px}
+.pill{display:inline-block;background:var(--yellow);border:var(--b);border-radius:999px;padding:4px 16px;font-weight:600;font-size:14px}
+.big{font-weight:900;font-size:clamp(58px,13vw,150px);line-height:.88;letter-spacing:-.02em;margin:6px 0;text-shadow:5px 5px 0 var(--orange);text-transform:uppercase}
+.big span{display:block}
+#title p.intro{max-width:46ch;font-size:clamp(15px,2vw,18px);color:var(--muted);margin:0}
+.start{background:var(--yellow);border:var(--b);border-radius:999px;box-shadow:var(--sh);padding:14px 40px;font-size:20px;font-weight:700;transition:transform .12s,box-shadow .12s}
+.start:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.start:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.hint{font-size:13px;color:var(--muted)}
+.quick{background:none;border:0;text-decoration:underline;font-size:13px;color:var(--muted);padding:4px}
+.fine{font-size:12px;color:var(--muted)}
+
+/* ---------- world ---------- */
+#world{max-width:1120px;margin:0 auto;padding:22px 18px 110px}
+.hud{display:flex;align-items:center;gap:18px;background:var(--paper);border:var(--b);border-radius:20px;box-shadow:var(--sh);padding:12px 16px}
+.av{flex:none;width:46px;height:46px;border-radius:12px;background:var(--pink);border:var(--b);display:grid;place-items:center;font-weight:800;font-size:15px}
+.who{flex:none;min-width:0}.who b{display:block;font-size:17px;line-height:1.2}.who small{color:var(--muted);font-size:13px}
+.xp{flex:1;min-width:0}
+.xp-top{display:flex;justify-content:space-between;font-size:12px;font-weight:700}
+.bar{height:16px;border:var(--b);border-radius:999px;margin-top:3px;overflow:hidden;background:var(--paper)}
+.bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,var(--orange) 0 8px,#F0905F 8px 16px);transition:width .6s cubic-bezier(.3,1.4,.5,1);border-right:3px solid var(--ink)}
+.bar i[style*="width: 0"]{border-right:0}
+.hire{flex:none;background:var(--orange);color:#fff;border:var(--b);border-radius:999px;box-shadow:3px 3px 0 var(--ink);padding:8px 18px;font-weight:700}
+.hire:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+@media (max-width:620px){.who small{display:none}.hud{gap:10px;padding:10px}.hire{padding:7px 12px;font-size:13px}.who b{font-size:15px}}
+@media (max-width:420px){.who{display:none}}
+
+.head{text-align:center;margin:42px 0 30px}
+.head h1{font-size:clamp(26px,4.4vw,40px);font-weight:800;margin:0;line-height:1.15;text-wrap:balance}
+.head p{margin:6px 0 0;color:var(--muted)}
+.map{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding-top:44px}
+.map::before{content:"";position:absolute;left:8%;right:8%;top:calc(44px + 55px);border-top:4px dashed var(--teal);z-index:0}
+.node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0;text-align:center}
+.tile{width:110px;height:110px;border:var(--b);border-radius:22px;box-shadow:6px 6px 0 var(--ink);display:grid;place-items:center;transition:transform .15s,box-shadow .15s;position:relative}
+.tile svg{width:40px;height:40px;stroke:var(--ink);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.node:hover .tile,.node.sel .tile{transform:translate(-3px,-4px);box-shadow:9px 10px 0 var(--ink)}
+.node b{font-size:16px;margin-top:10px}.node small{color:var(--muted);font-size:13px;line-height:1.3}
+.done-badge{position:absolute;top:-10px;right:-10px;width:28px;height:28px;border-radius:50%;background:var(--teal);border:var(--b);display:none;place-items:center}
+.done-badge svg{width:14px;height:14px;stroke:#fff;stroke-width:3.4}
+.node.done .done-badge{display:grid}
+.token{position:absolute;top:0;width:40px;height:40px;border-radius:50%;background:var(--paper);border:var(--b);display:grid;place-items:center;font-weight:800;font-size:13px;z-index:2;transition:left .35s cubic-bezier(.3,1.3,.5,1),top .35s cubic-bezier(.3,1.3,.5,1);transform:translateX(-50%);animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{margin-top:-5px}}
+.keys{text-align:center;margin-top:34px;font-size:13px;color:var(--muted)}
+.foot{text-align:center;margin-top:18px;font-size:12px;color:var(--muted)}
+@media (max-width:900px){
+  .map{grid-template-columns:repeat(3,1fr);row-gap:64px}
+  .map::before{display:none}
+  .tile{width:92px;height:92px;border-radius:18px}
+}
+@media (max-width:420px){.tile{width:80px;height:80px}.tile svg{width:32px;height:32px}.node b{font-size:14px}.node small{font-size:11.5px}}
+
+/* sound pill */
+.dock{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;gap:6px;background:var(--paper);border:var(--b);border-radius:999px;padding:4px;box-shadow:3px 3px 0 var(--ink)}
+.dock button{border:2px solid var(--ink);background:var(--paper);border-radius:999px;width:34px;height:30px;display:grid;place-items:center}
+.dock button{width:auto;padding:0 10px;gap:5px;display:flex;align-items:center;font-size:12px;font-weight:700}
+.dock button[aria-pressed="true"]{background:var(--sand)}
+/* skill tree detail */
+.sk.dim{opacity:.3}
+.tag.pick{cursor:pointer;font-family:inherit;color:var(--ink)}
+.tag.pick.on{background:var(--ink);color:#fff}
+.tool-card{border:var(--b);border-radius:14px;box-shadow:4px 4px 0 var(--ink);background:var(--cream);padding:14px;margin-top:14px;animation:pop .25s cubic-bezier(.3,1.4,.5,1)}
+.tool-card b{font-size:16px}
+.tool-card .used{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tool-card .used span{border:2px solid var(--ink);border-radius:8px;padding:2px 10px;font-size:12px;font-weight:600;background:var(--paper)}
+.dock svg{width:16px;height:16px;stroke:var(--ink);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- modal ---------- */
+#scrim{position:fixed;inset:0;background:rgba(20,48,41,.72);z-index:40;display:flex;align-items:center;justify-content:center;padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+.modal{width:min(880px,100%);max-height:100%;display:flex;flex-direction:column;background:var(--paper);border:var(--b);border-radius:20px;box-shadow:8px 8px 0 var(--ink);overflow:hidden;animation:pop .28s cubic-bezier(.3,1.4,.5,1)}
+@keyframes pop{from{transform:scale(.92) translateY(10px)}to{transform:none}}
+.mh{flex:none;display:flex;align-items:center;gap:10px;background:var(--yellow);border-bottom:var(--b);padding:12px 14px}
+.mh h2{flex:1;margin:0;font-size:18px;font-weight:800;line-height:1.25;min-width:0}
+.ib{flex:none;width:34px;height:34px;border:var(--b);border-radius:10px;background:var(--paper);display:grid;place-items:center;padding:0}
+.ib svg{width:16px;height:16px;stroke:var(--ink);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.mb{overflow-y:auto;padding:18px 20px 24px;-webkit-overflow-scrolling:touch}
+.mb h3{font-size:15px;font-weight:700;margin:22px 0 4px}
+.mb h3:first-child{margin-top:0}
+.mb p{margin:0 0 8px}
+.lead{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:10px 0}
+.stat{background:var(--sand);border:var(--b);border-radius:14px;box-shadow:4px 4px 0 var(--ink);padding:14px 8px;text-align:center}
+.stat b{display:block;font-size:24px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;font-weight:500}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}.mb{padding:16px 14px 22px}}
+
+.panel{border:var(--b);border-radius:var(--r);box-shadow:var(--sh);padding:16px;margin-top:16px;background:var(--paper)}
+.panel.soft{background:var(--bg)}
+.tbl-wrap{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;min-width:540px;border:var(--b);font-size:13.5px}
+th{background:var(--yellow);text-align:left;padding:8px 10px;border:2px solid var(--ink);font-weight:700}
+td{padding:7px 10px;border:2px solid var(--ink);transition:background .3s}
+tbody tr{background:var(--paper)}
+table.clean tbody tr{background:var(--teal-soft)}
+td.fixed{animation:flash .6s ease}
+@keyframes flash{0%{background:var(--yellow)}100%{background:transparent}}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:#fff;border:var(--b);border-radius:999px;box-shadow:3px 3px 0 var(--ink);padding:8px 18px;font-weight:700;font-size:14px;text-decoration:none}
+.btn.y{background:var(--yellow);color:var(--ink)}
+.btn.o{background:var(--orange)}
+.btn.w{background:var(--paper);color:var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.steps{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:10px}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
+.chips .lbl{font-size:13px;font-weight:700;width:58px}
+.chip{border:2px solid var(--ink);border-radius:999px;background:var(--paper);padding:3px 12px;font-size:12.5px;font-weight:600}
+.chip.on{background:var(--orange);color:#fff}
+.chip.dark.on{background:var(--ink);color:#fff}
+.chip.reset{margin-left:auto;background:var(--yellow)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.kpi{background:var(--sand);border:var(--b);border-radius:12px;padding:10px 6px;text-align:center}
+.kpi b{display:block;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.kpi span{font-size:11.5px}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chart{border:var(--b);border-radius:12px;padding:12px;min-width:0}
+.chart h4{margin:0 0 10px;font-size:13px}
+.vbars{display:flex;align-items:flex-end;gap:8px;height:130px;border-bottom:2px solid var(--ink);padding:0 4px}
+.vb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:3px;background:none;border:0;padding:0}
+.vb i{display:block;width:100%;max-width:34px;border:2px solid var(--ink);border-bottom:0;border-radius:6px 6px 0 0;background:var(--teal);transition:height .45s cubic-bezier(.3,1.3,.5,1),background .3s}
+.vb.off i{background:var(--teal-soft)}
+.vb em{font-style:normal;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums}
+.vlabels{display:flex;gap:8px;padding:4px 4px 0}.vlabels span{flex:1;text-align:center;font-size:11px;color:var(--muted)}
+.hrow{display:grid;grid-template-columns:82px 1fr 34px;align-items:center;gap:8px;margin:7px 0;background:none;border:0;padding:0;width:100%;text-align:left;font-size:12px}
+.hrow .tr{height:16px}
+.hrow i{display:block;height:16px;border:2px solid var(--ink);border-radius:5px;background:var(--orange);transition:width .45s cubic-bezier(.3,1.3,.5,1),background .3s}
+.hrow.off i{background:var(--teal-soft);border-color:#9DB8B1}
+.hrow.off{color:#9DB8B1}
+.hrow b{font-variant-numeric:tabular-nums;text-align:right}
+@media (max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}.charts{grid-template-columns:1fr}}
+.demo-note{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* quest log */
+.quest{border:var(--b);border-radius:var(--r);box-shadow:var(--sh);padding:16px;margin-bottom:18px}
+.qtop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.quest h4{margin:0;font-size:17px;font-weight:800}
+.qmeta{color:var(--teal);font-size:13px;font-weight:600;margin:2px 0 8px}
+.badge{flex:none;border:2px solid var(--ink);border-radius:999px;padding:1px 10px;font-size:11.5px;font-weight:700;background:var(--yellow)}
+.badge.done{background:var(--pink)}
+.badge.edu{background:var(--teal-soft)}
+.quest ul{margin:6px 0 0;padding-left:20px}
+.quest li{margin:4px 0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{border:2px solid var(--ink);border-radius:999px;padding:1px 10px;font-size:11.5px;font-weight:600;background:var(--paper)}
+
+/* analysis lab */
+.acc{border:var(--b);border-radius:14px;box-shadow:4px 4px 0 var(--ink);margin-bottom:12px;overflow:hidden}
+.acc>button{width:100%;display:flex;align-items:center;gap:10px;background:var(--paper);border:0;padding:12px 14px;text-align:left}
+.acc>button b{font-size:15px}
+.acc .pm{margin-left:auto;flex:none;width:26px;height:26px;border:2px solid var(--ink);border-radius:7px;display:grid;place-items:center;font-weight:700}
+.cat{border:2px solid var(--ink);border-radius:999px;padding:0 8px;font-size:11px;font-weight:700;background:var(--yellow);white-space:nowrap}
+.acc .body{background:var(--bg);border-top:var(--b);padding:12px 14px}
+.k{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.k:first-child{margin-top:0}
+.impact{background:var(--yellow);border:var(--b);border-radius:10px;padding:8px 12px;font-weight:600;margin-top:4px}
+
+/* inventory */
+.inv{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.item{border:var(--b);border-radius:var(--r);box-shadow:var(--sh);background:var(--paper);padding:14px;text-align:left;display:flex;flex-direction:column;gap:8px;min-height:150px;transition:transform .12s}
+.item:hover{transform:translate(-2px,-2px)}
+.ico{width:46px;height:46px;border:var(--b);border-radius:12px;display:grid;place-items:center}
+.ico svg{width:24px;height:24px;stroke:var(--ink);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.item b{font-size:14.5px;line-height:1.3}
+.item small{color:var(--muted);font-size:12px}
+@media (max-width:700px){.inv{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:380px){.inv{grid-template-columns:1fr}}
+.cs-hero{border:var(--b);border-radius:var(--r);background:var(--cream);padding:24px;margin:14px 0;position:relative;overflow:hidden}
+.cs-hero .k{margin:0}
+.cs-hero h3{font-family:var(--mono);font-weight:700;font-size:clamp(26px,5vw,40px);margin:4px 0 6px;line-height:1.1}
+.cs-hero p{font-family:var(--mono);font-size:13.5px;max-width:38ch;margin:0}
+.cs-hero .glyph{position:absolute;right:22px;bottom:14px;font-family:var(--mono);font-weight:700;font-size:72px;color:var(--teal);line-height:1;opacity:.95}
+@media (max-width:560px){.cs-hero .glyph{display:none}}
+.schema{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.schema span{font-family:var(--mono);font-size:12px;border:2px solid var(--ink);border-radius:8px;padding:4px 10px;background:var(--teal-soft)}
+.schema span.more{background:var(--paper);border-style:dashed}
+
+/* skills */
+.sk{margin:10px 0}
+.sk .top{display:flex;justify-content:space-between;font-size:13px;font-weight:600}
+.sk .bar{height:14px}
+.sk .bar i{background:var(--teal);border-right:3px solid var(--ink)}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.svc div{border:var(--b);border-radius:14px;padding:12px}
+.svc b{display:block;font-size:14px}
+.svc span{font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.svc{grid-template-columns:1fr}}
+
+/* contact */
+.party{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+.card{border:var(--b);border-radius:var(--r);box-shadow:4px 4px 0 var(--ink);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card b{font-size:16px}
+.card span{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.card .val{font-family:var(--mono);color:var(--ink);font-size:12.5px;user-select:all}
+.card .acts{margin-top:auto;display:grid;gap:8px}
+.card .btn{justify-content:center}
+@media (max-width:760px){.party{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:400px){.party{grid-template-columns:1fr}}
+
+/* toast */
+#toasts{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:max-content;max-width:calc(100% - 32px)}
+.toast{background:var(--ink);color:#fff;border:3px solid var(--yellow);border-radius:12px;padding:8px 16px;font-weight:600;font-size:13.5px;text-align:center;animation:tin .35s cubic-bezier(.3,1.4,.5,1)}
+.toast.gold{background:var(--yellow);color:var(--ink);border-color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
+@keyframes tin{from{transform:translateY(20px);opacity:0}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<!-- ============ TITLE ============ -->
+</head>
+<body>
+<section id="title">
+  <span class="pill">Data Analyst · Business Analyst</span>
+  <h1 class="big"><span>Yashasvi</span><span>Sharma</span></h1>
+  <p class="intro">An interactive portfolio. Explore 6 areas, earn XP, and see how I turn messy operational data into reports people act on.</p>
+  <button class="start" id="startBtn" type="button">Start the adventure</button>
+  <div class="hint">or press <span class="kbd">Enter</span></div>
+  <button class="quick" id="quickCv" type="button">In a hurry? Jump straight to my experience</button>
+  <div class="fine">© 2026 Yashasvi Sharma · Perth, Western Australia</div>
+</section>
+
+<!-- ============ WORLD ============ -->
+<section id="world" hidden>
+  <div class="hud">
+    <div class="av">YS</div>
+    <div class="who"><b>Yashasvi Sharma</b><small id="lvl">Data Analyst · Lv 1</small></div>
+    <div class="xp"><div class="xp-top"><span>XP</span><span id="xpTxt">0 / 120</span></div><div class="bar"><i id="xpBar"></i></div></div>
+    <button class="hire" id="hireBtn" type="button">Hire me</button>
+  </div>
+  <div class="head"><h1>Pick an area to explore</h1><p>Each area gives +20 XP. Explore all six to unlock a bonus.</p></div>
+  <div class="map" id="map"><div class="token" id="token">YS</div></div>
+  <div class="keys">Use <span class="kbd">←</span> <span class="kbd">→</span> to move, <span class="kbd">Enter</span> to open, <span class="kbd">Esc</span> to close.</div>
+  <div class="foot">© 2026 Yashasvi Sharma. All rights reserved.</div>
+</section>
+
+<div class="dock"><button id="sound" type="button" aria-pressed="false" aria-label="Sound effects"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path id="sw" d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg><span id="sndTxt">Sound</span></button><button id="music" type="button" aria-pressed="false" aria-label="Background music"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>Music</span></button></div>
+<div id="scrim" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"><div class="mh"><button class="ib" id="mBack" type="button" aria-label="Back" hidden><svg viewBox="0 0 24 24"><path d="M15 18 9 12l6-6"/></svg></button><h2 id="mTitle"></h2><button class="ib" id="mClose" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="mb" id="mBody"></div></div></div>
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const I={
+ user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>',
+ bag:'<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg>',
+ chart:'<svg viewBox="0 0 24 24"><path d="M4 20h16M7 16v-5M11 16V6M15 16v-8M19 16v-3"/></svg>',
+ grid:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
+ bolt:'<svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+ chat:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>',
+ db:'<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>',
+ table:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16M15 4v16"/></svg>',
+ gear:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>',
+ flow:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4a2 2 0 0 0 2 2H14"/></svg>',
+ file:'<svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>',
+ ext:'<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+ copy:'<svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>',
+ check:'<svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10"/></svg>',
+ back:'<svg viewBox="0 0 24 24"><path d="M15 18 9 12l6-6"/></svg>'
+};
+
+/* ---------------- sound (off by default) ---------------- */
+/* Sounds are synthesised into small WAV clips and played through <audio>.
+   Unlike Web Audio, <audio> still plays on iPhone/iPad when the silent switch is on. */
+let soundOn=false,musicOn=false,musicEl=null,warned=false;const RATE=22050,CACHE={};
+function render(notes,total){const n=Math.ceil(total*RATE),buf=new Float32Array(n);
+  for(const t of notes){const s0=Math.floor(t.at*RATE),len=Math.floor(t.d*RATE);
+    for(let i=0;i<len&&s0+i<n;i++){const ph=(i/RATE*t.f)%1;
+      const v=t.type==="square"?(ph<.5?1:-1):t.type==="triangle"?(4*Math.abs(ph-.5)-1):t.type==="noise"?(Math.random()*2-1):Math.sin(2*Math.PI*ph);
+      const env=Math.min(1,i/(RATE*.004))*Math.exp(-4*i/len);buf[s0+i]+=v*t.v*env}}
+  return buf}
+function toWav(buf){const n=buf.length,ab=new ArrayBuffer(44+n*2),d=new DataView(ab),w=(o,s)=>{for(let i=0;i<s.length;i++)d.setUint8(o+i,s.charCodeAt(i))};
+  w(0,"RIFF");d.setUint32(4,36+n*2,true);w(8,"WAVE");w(12,"fmt ");d.setUint32(16,16,true);d.setUint16(20,1,true);d.setUint16(22,1,true);
+  d.setUint32(24,RATE,true);d.setUint32(28,RATE*2,true);d.setUint16(32,2,true);d.setUint16(34,16,true);w(36,"data");d.setUint32(40,n*2,true);
+  for(let i=0;i<n;i++)d.setInt16(44+i*2,Math.max(-1,Math.min(1,buf[i]))*32767,true);
+  const u=new Uint8Array(ab);let s="";for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));
+  return "data:audio/wav;base64,"+btoa(s)}
+function play(uri){try{const a=new Audio(uri);const p=a.play();if(p&&p.catch)p.catch(blocked)}catch(e){blocked()}}
+function blocked(){if(warned)return;warned=true;toast("Sound is blocked in this preview. It plays on the live website.")}
+function beep(f=660,d=.08,type="square"){if(!soundOn)return;const k=f+"|"+d+"|"+type;
+  CACHE[k]=CACHE[k]||toWav(render([{f,at:0,d,type,v:type==="square"?.22:.45}],d+.02));play(CACHE[k])}
+function jingle(){if(!soundOn)return;CACHE.j=CACHE.j||toWav(render([523,659,784,1047].map((f,i)=>({f,at:i*.09,d:i===3?.4:.14,type:"square",v:.2})),.55));play(CACHE.j)}
+/* background music: a light 8-bit loop, rendered once and looped */
+const MEL=[523,659,784,659,587,698,880,698,523,659,784,1047,988,784,659,587],BASS=[131,0,0,0,147,0,0,0,131,0,0,0,165,0,147,0],STEP=.23;
+function musicUri(){const notes=[];MEL.forEach((f,i)=>{notes.push({f,at:i*STEP,d:.22,type:"triangle",v:.28});if(BASS[i])notes.push({f:BASS[i],at:i*STEP,d:.5,type:"square",v:.09});if(i%4===2)notes.push({f:1,at:i*STEP,d:.03,type:"noise",v:.05})});return toWav(render(notes,16*STEP))}
+function setMusic(on){musicOn=on;$("#music").setAttribute("aria-pressed",on);
+  if(on){if(!musicEl){musicEl=new Audio(musicUri());musicEl.loop=true}const p=musicEl.play();if(p&&p.catch)p.catch(()=>{blocked();musicOn=false;$("#music").setAttribute("aria-pressed",false)})}
+  else if(musicEl)musicEl.pause()}
+$("#sound").addEventListener("click",e=>{soundOn=!soundOn;e.currentTarget.setAttribute("aria-pressed",soundOn);$("#sw").style.display=soundOn?"":"none";$("#sndTxt").textContent=soundOn?"Sound on":"Sound";if(soundOn){jingle();toast("Sound on · turn up your volume")}});
+$("#music").addEventListener("click",()=>setMusic(!musicOn));
+document.addEventListener("visibilitychange",()=>{if(!musicEl)return;if(document.hidden)musicEl.pause();else if(musicOn)musicEl.play().catch(()=>{})});
+$("#sw").style.display="none";
+
+function toast(msg,gold){const t=document.createElement("div");t.className="toast"+(gold?" gold":"");t.textContent=msg;$("#toasts").appendChild(t);setTimeout(()=>t.remove(),gold?4200:2200)}
+
+/* ---------------- areas ---------------- */
+const AREAS=[
+ {id:"character",name:"Character",sub:"Profile and stats",color:"var(--yellow)",icon:I.user,title:"Character · Profile and stats",render:renderCharacter},
+ {id:"quest",name:"Quest log",sub:"Experience and CV",color:"var(--sand)",icon:I.bag,title:"Quest log · Experience and CV",render:renderQuest},
+ {id:"lab",name:"Analysis lab",sub:"How I think",color:"var(--orange)",icon:I.chart,title:"Analysis lab · How I think",render:renderLab},
+ {id:"inv",name:"Inventory",sub:"Projects and builds",color:"var(--pink)",icon:I.grid,title:"Inventory · Projects and builds",render:renderInv},
+ {id:"skills",name:"Skill tree",sub:"Skills, tools, services",color:"var(--yellow)",icon:I.bolt,title:"Skill tree · Skills, tools, services",render:renderSkills},
+ {id:"party",name:"Join party",sub:"Contact and hire",color:"var(--sand)",icon:I.chat,title:"Join party · Contact and hire",render:renderParty}
+];
+const explored=new Set();let sel=0,openIdx=null;
+
+const map=$("#map");
+AREAS.forEach((a,i)=>{
+  const b=document.createElement("button");b.className="node";b.type="button";b.dataset.i=i;
+  b.innerHTML=`<div class="tile" style="background:${a.color}">${a.icon}<span class="done-badge">${I.check}</span></div><b>${a.name}</b><small>${a.sub}</small>`;
+  b.addEventListener("click",()=>{sel=i;placeToken();open(i)});
+  b.addEventListener("mouseenter",()=>{sel=i;placeToken()});
+  map.appendChild(b);
+});
+function placeToken(){
+  const nodes=map.querySelectorAll(".node");nodes.forEach((n,i)=>n.classList.toggle("sel",i===sel));
+  const n=nodes[sel],mr=map.getBoundingClientRect(),r=n.querySelector(".tile").getBoundingClientRect();
+  $("#token").style.left=(r.left-mr.left+r.width/2)+"px";$("#token").style.top=(r.top-mr.top-50)+"px";
+}
+addEventListener("resize",()=>{if(!$("#world").hidden)placeToken()});
+
+function updateXP(){
+  const xp=explored.size*20;$("#xpTxt").textContent=`${xp} / 120`;$("#xpBar").style.width=(xp/120*100)+"%";
+  $("#lvl").textContent=`Data Analyst · Lv ${1+explored.size}`;
+  AREAS.forEach((a,i)=>map.children[i+1].classList.toggle("done",explored.has(a.id)));
+}
+
+/* ---------------- modal ---------------- */
+function open(i,opts={}){
+  openIdx=i;const a=AREAS[i];$("#mTitle").textContent=a.title;$("#mBack").hidden=true;
+  $("#mBody").innerHTML="";a.render($("#mBody"),opts);$("#mBody").scrollTop=0;
+  $("#scrim").hidden=false;beep(520);setTimeout(()=>$("#mClose").focus(),30);
+  if(!explored.has(a.id)){explored.add(a.id);setTimeout(()=>{toast("+20 XP · new area explored");beep(988,.1,"triangle");updateXP();
+    if(explored.size===AREAS.length)setTimeout(()=>{toast("Achievement unlocked: every area explored! Say hi with Hire me.",true);jingle()},900)},350)}
+}
+function close(){ $("#scrim").hidden=true;openIdx=null;const n=map.children[sel+1];n&&n.focus()}
+$("#mClose").addEventListener("click",close);
+$("#scrim").addEventListener("click",e=>{if(e.target.id==="scrim")close()});
+
+function start(){ $("#title").hidden=true;$("#world").hidden=false;requestAnimationFrame(()=>{placeToken();map.children[1].focus()});beep(660);setTimeout(()=>beep(880),90)}
+$("#startBtn").addEventListener("click",start);
+$("#quickCv").addEventListener("click",()=>{start();sel=1;setTimeout(()=>{placeToken();open(1)},60)});
+$("#hireBtn").addEventListener("click",()=>{sel=5;placeToken();open(5)});
+
+addEventListener("keydown",e=>{
+  if(!$("#title").hidden){if(e.key==="Enter"&&document.activeElement.id!=="quickCv"){e.preventDefault();start()}return}
+  if(!$("#scrim").hidden){if(e.key==="Escape")close();return}
+  if(e.key==="ArrowRight"){sel=(sel+1)%6;placeToken();map.children[sel+1].focus();beep(440,.04)}
+  if(e.key==="ArrowLeft"){sel=(sel+5)%6;placeToken();map.children[sel+1].focus();beep(440,.04)}
+});
+
+function copyBtn(btn,text){btn.addEventListener("click",()=>{const ok=()=>{const o=btn.innerHTML;btn.innerHTML="Copied ✓";setTimeout(()=>btn.innerHTML=o,1500)};
+  const fb=()=>{const v=btn.closest(".card").querySelector(".val");const r=document.createRange();r.selectNodeContents(v);const s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent="Selected, press copy"};
+  try{navigator.clipboard.writeText(text).then(ok,fb)}catch(e){fb()}})}
+
+/* ================= CHARACTER ================= */
+function renderCharacter(el){
+  el.innerHTML=`
+  <h3>About</h3>
+  <p class="lead">Data Analyst with nearly 3 years across disability services, mining and education. I build the whole path from database design to stakeholder-ready reporting, using SQL, Python (pandas), Power Query, Power BI and Tableau. Currently leading a Jira Service Management data migration at the Centre for Accessibility Australia in Perth.</p>
+  <h3>Stats</h3>
+  <div class="stats">
+    <div class="stat"><b>87.5%</b><span>faster reporting turnaround</span></div>
+    <div class="stat"><b>5,000+</b><span>paper records digitised</span></div>
+    <div class="stat"><b>5</b><span>automation rules shipped</span></div>
+    <div class="stat"><b>3</b><span>sectors: mining, disability, education</span></div>
+  </div>
+
+  <div class="panel">
+    <h3>Mini game: clean the messy data</h3>
+    <p class="lead">This is what safety data often looks like before I get to it. Press the button to run the clean-up.</p>
+    <div class="tbl-wrap"><table id="messy"><thead><tr><th>Reported by</th><th>Date</th><th>Site</th><th>Incident type</th><th>Severity</th></tr></thead><tbody></tbody></table></div>
+    <button class="btn" id="cleanBtn" type="button">${I.bolt} Clean the data</button>
+    <div class="steps" id="cleanSteps">str.strip() · str.title() · pd.to_datetime() · map(site_lookup) · map(type_lookup)</div>
+  </div>
+
+  <div class="panel soft">
+    <h3>Mini game: click the dashboard</h3>
+    <p class="lead">Pick a filter or click any bar. Every scorecard and chart updates, just like a real Power BI report.</p>
+    <div class="chips" id="fSite"><span class="lbl">Site</span></div>
+    <div class="chips" id="fType"><span class="lbl">Type</span></div>
+    <div class="chips" id="fPer"><span class="lbl">Period</span></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="charts">
+      <div class="chart"><h4>Incidents by month</h4><div class="vbars" id="vbars"></div><div class="vlabels" id="vlabels"></div></div>
+      <div class="chart"><h4>Incidents by site</h4><div id="hbars"></div></div>
+    </div>
+    <p class="demo-note">Demo data, generated for this game. Not real company figures.</p>
+  </div>`;
+  initClean();initDash();
+}
+
+const RAW=[["  j. SMITH","12/03/24","pilbara ","NEAR MISS","med"],["amy chen","2024-3-12","PILBARA","near-miss","Medium"],["R. Patel ","Mar 12 2024","Pilbara","Nearmiss","MED"],["k.o'brien","13/03/2024","goldfields","first aid","low"],["Lee Wong","2024/03/14","Gold Fields","FirstAid","L"]];
+const CLEAN=[["J. Smith","2024-03-12","Pilbara","Near miss","Medium"],["Amy Chen","2024-03-12","Pilbara","Near miss","Medium"],["R. Patel","2024-03-12","Pilbara","Near miss","Medium"],["K. O'Brien","2024-03-13","Goldfields","First aid","Low"],["Lee Wong","2024-03-14","Goldfields","First aid","Low"]];
+function initClean(){
+  const tb=$("#messy tbody"),btn=$("#cleanBtn");let isClean=false;
+  const draw=(rows,anim)=>{tb.innerHTML=rows.map(r=>"<tr>"+r.map(c=>`<td${anim?' class="fixed"':''}>${c.replace(/</g,"&lt;")}</td>`).join("")+"</tr>").join("")};
+  draw(RAW);
+  btn.addEventListener("click",()=>{isClean=!isClean;$("#messy").classList.toggle("clean",isClean);
+    if(isClean){let k=0;const rows=RAW.map(r=>r.slice());const step=()=>{if(k>=5){btn.innerHTML=I.back+" Restore raw data";toast("Data cleaned · 5 rows standardised");return}rows[k]=CLEAN[k];draw(rows);tb.children[k].querySelectorAll("td").forEach(td=>td.classList.add("fixed"));beep(600+k*80,.05);k++;setTimeout(step,170)};step()}
+    else{draw(RAW);btn.innerHTML=I.bolt+" Clean the data"}});
+}
+
+/* demo safety data */
+const SITES=["Pilbara","Goldfields","Kwinana","Mid West"],TYPES=["Near miss","First aid","Equipment"],MONTHS=["Jan","Feb","Mar","Apr","May","Jun"];
+const DATA=(()=>{let s=7;const rnd=()=>(s=(s*9301+49297)%233280)/233280;const out=[];
+  SITES.forEach((site,si)=>TYPES.forEach((t,ti)=>MONTHS.forEach((m,mi)=>{const base=[9,6,4,3][si]*[1.4,1,.7][ti];out.push({site,type:t,m:mi,n:Math.max(0,Math.round(base*(.6+rnd()*.8)-mi*.25*(ti===0?1:.3))),days:Math.round(3+rnd()*6+(ti===2?3:0)),closed:.78+rnd()*.2})})));return out})();
+const F={site:new Set(SITES),type:new Set(TYPES),per:"All"};
+function initDash(){
+  const mk=(box,list,setName,dark)=>list.forEach(v=>{const c=document.createElement("button");c.type="button";c.className="chip on"+(dark?" dark":"");c.textContent=v;c.addEventListener("click",()=>{const S=F[setName];if(S.has(v)&&S.size>1)S.delete(v);else S.add(v);drawDash();beep(700,.04)});box.appendChild(c)});
+  mk($("#fSite"),SITES,"site");mk($("#fType"),TYPES,"type");
+  ["All","Q1","Q2"].forEach(p=>{const c=document.createElement("button");c.type="button";c.className="chip";c.textContent=p;c.addEventListener("click",()=>{F.per=p;drawDash();beep(700,.04)});$("#fPer").appendChild(c)});
+  const r=document.createElement("button");r.type="button";r.className="chip reset";r.textContent="Reset";r.addEventListener("click",()=>{F.site=new Set(SITES);F.type=new Set(TYPES);F.per="All";drawDash();beep(500,.06)});$("#fPer").appendChild(r);
+  $("#vlabels").innerHTML=MONTHS.map(m=>`<span>${m}</span>`).join("");
+  drawDash();
+}
+function inPer(m){return F.per==="All"||(F.per==="Q1"?m<3:m>=3)}
+function drawDash(){
+  $("#fSite").querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",F.site.has(c.textContent)));
+  $("#fType").querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",F.type.has(c.textContent)));
+  $("#fPer").querySelectorAll(".chip:not(.reset)").forEach(c=>c.classList.toggle("on",c.textContent===F.per));
+  const all=DATA.reduce((a,d)=>a+d.n,0);
+  const rows=DATA.filter(d=>F.site.has(d.site)&&F.type.has(d.type)&&inPer(d.m));
+  const tot=rows.reduce((a,d)=>a+d.n,0),nm=rows.filter(d=>d.type==="Near miss").reduce((a,d)=>a+d.n,0);
+  const days=tot?rows.reduce((a,d)=>a+d.n*d.days,0)/tot:0,closed=tot?rows.reduce((a,d)=>a+d.n*d.closed,0)/tot:0;
+  $("#kpis").innerHTML=`<div class="kpi"><b>${tot}</b><span>Incidents · ${Math.round(tot/all*100)}% of total</span></div><div class="kpi"><b>${nm}</b><span>Near misses reported</span></div><div class="kpi"><b>${days.toFixed(1)}</b><span>Avg days to close out</span></div><div class="kpi"><b>${(closed*100).toFixed(1)}%</b><span>Actions closed</span></div>`;
+  // monthly (respect site/type, show period as highlight)
+  const mt=MONTHS.map((_,mi)=>DATA.filter(d=>F.site.has(d.site)&&F.type.has(d.type)&&d.m===mi).reduce((a,d)=>a+d.n,0));
+  const mx=Math.max(...mt,1);
+  $("#vbars").innerHTML=mt.map((v,mi)=>`<button type="button" class="vb${inPer(mi)?"":" off"}" data-m="${mi}" aria-label="${MONTHS[mi]}: ${v}"><em>${v}</em><i style="height:${Math.round(v/mx*100)}px"></i></button>`).join("");
+  $("#vbars").querySelectorAll(".vb").forEach(b=>b.addEventListener("click",()=>{F.per=+b.dataset.m<3?"Q1":"Q2";drawDash();beep(700,.04)}));
+  const st=SITES.map(s=>DATA.filter(d=>d.site===s&&F.type.has(d.type)&&inPer(d.m)).reduce((a,d)=>a+d.n,0));
+  const sx=Math.max(...st,1);
+  $("#hbars").innerHTML=st.map((v,si)=>`<button type="button" class="hrow${F.site.has(SITES[si])?"":" off"}" data-s="${si}"><span>${SITES[si]}</span><span class="tr"><i style="width:${Math.max(4,v/sx*100)}%"></i></span><b>${v}</b></button>`).join("");
+  $("#hbars").querySelectorAll(".hrow").forEach(b=>b.addEventListener("click",()=>{const s=SITES[+b.dataset.s];const only=F.site.size===1&&F.site.has(s);F.site=only?new Set(SITES):new Set([s]);drawDash();beep(700,.04)}));
+}
+
+/* ================= QUEST LOG ================= */
+function renderQuest(el){
+  const q=(title,meta,badge,cls,items,tags,extra="")=>`<div class="quest"><div class="qtop"><h4>${title}</h4><span class="badge ${cls}">${badge}</span></div><div class="qmeta">${meta}</div>${extra}${items?`<ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>`:""}${tags?`<div class="tags">${tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>`:""}</div>`;
+  el.innerHTML=
+  q("Data Analyst","Centre for Accessibility Australia (CFAA) · Perth · Apr 2026 – Present","Active quest","",[
+    "Leading the migration of client services records from Asana and Monday.com into Jira Service Management, with organisation admin rights, ahead of a 6 October licence-expiry deadline.",
+    "Designed the target JSM schema from scratch in one week: 11 custom fields, a 13-field Book a Service request type, a 10-status workflow, 7 request queues and a client portal.",
+    "Built and tested 5 automation rules across 4 workflow pipelines linking review and invoicing.",
+    "Ran a bulk migration of historical marketing records with Bulk Change, tracing a recurring data integrity issue to a missing permission scheme role.",
+    "Produced a build narrative, Requirements Traceability Matrix, 14-slide stakeholder deck and a team training quiz.",
+    "Validated data requirements and workflow design with the project sponsor and subject matter expert ahead of UAT."],
+    ["Jira Service Management","Automation","Data migration","RTM","Stakeholders"])+
+  q("Data Analyst","UGL Resources · Mining sector · Apr 2025 – Jan 2026","Quest complete","done",[
+    "Engineered SQL, Power Query and Python pipelines that cut weekly and monthly safety and operational reports from 3 days to 4 hours (87.5% reduction).",
+    "Extracted, cleansed and consolidated data from myosh and Excel with pandas, removing inconsistencies across every reporting cycle.",
+    "Maintained Power BI dashboards for operations and safety stakeholders covering safety performance, incident trends and operational KPIs.",
+    "Analysed incident trends and operational data to surface patterns that supported proactive risk management.",
+    "Ran reporting workflows in Jira and documented logic in Confluence, using Jira AI and Microsoft Copilot to speed up documentation."],
+    ["SQL","Python · pandas","Power Query","Power BI","myosh","Confluence"])+
+  q("Data Analyst","Pacific International School · Rajasthan, India · Jun 2021 – Jun 2023","Quest complete","done",[
+    "Digitised 5,000+ paper records across student, teacher, transport, exam, admin and finance domains into queryable Excel and Access databases.",
+    "Introduced standard data-entry templates and validation rules across 3 to 5 departments.",
+    "Co-built Tableau dashboards on performance, attendance, transport use, exams and finance for school leadership.",
+    "Automated recurring reports with Excel formulas, Power Query and Access SQL."],
+    ["MS Access","Excel","Tableau","Power Query","Data validation"])+
+  q("Master of Business Analytics","Edith Cowan University · Perth · 2023 – 2025","Education","edu")+
+  q("Professional Year Program (ICT)","NIT Perth · 2025 – 2026","Education","edu")+
+  q("Bachelor of Biotechnology","Amity University · Jaipur, India · 2019 – 2022","Education","edu","",null,
+    `<h3 style="margin-top:14px">Certifications</h3><ul style="margin:4px 0 0;padding-left:20px"><li>PL-300: Microsoft Power BI Data Analyst · In progress</li><li>Python for Beginners · QA</li><li>Claude 101 and Claude Code 101 · Anthropic</li></ul>`);
+}
+
+/* ================= ANALYSIS LAB ================= */
+const LAB=[
+ {c:"Reporting & BI",t:"Safety reporting turnaround",a:"Weekly and monthly safety and operational reports at UGL, assembled by hand from myosh and Excel exports.",p:"Rebuilt the process as an automated pipeline: SQL for extraction, Power Query for shaping, pandas for cleansing, Power BI for delivery.",i:"Report turnaround cut from 3 days to 4 hours"},
+ {c:"Reporting & BI",t:"Safety incident trends",a:"Incident records and operational datasets across sites and reporting periods.",p:"Structured trend analysis by period, type and site, surfaced through Power BI for operations and safety teams.",i:"Patterns that supported proactive risk management and site-level decisions"},
+ {c:"Data quality",t:"Multi-source consistency",a:"Safety and operational data from myosh and Excel that rarely agreed on formats, names or categories.",p:"Standardised fields and categories with Python and pandas before anything reached a dashboard.",i:"Consistent, trusted datasets across every reporting cycle"},
+ {c:"Systems & migration",t:"Client services migration",a:"CFAA client service records split across Asana and Monday.com, with a licence-expiry deadline approaching.",p:"Designed the target Jira Service Management schema first (fields, request type, statuses, queues), then mapped and moved the data.",i:"One system of record, schema built in a single week"},
+ {c:"Data quality",t:"Bulk migration integrity issue",a:"A recurring failure during bulk migration of historical marketing records.",p:"Isolated the pattern and traced it to a missing role in the permission scheme rather than the data itself.",i:"Root cause fixed so bulk changes ran cleanly"},
+ {c:"Automation",t:"Review-to-invoicing handoff",a:"Manual data handoffs between the review and invoicing stages of client services.",p:"Built and tested 5 Jira automation rules across 4 workflow pipelines, validated with the sponsor and SME.",i:"Less manual handling and faster processing between teams"},
+ {c:"Data quality",t:"Paper to database",a:"A fully paper-based record system across six school domains.",p:"Designed Access and Excel structures, with standard entry templates and validation across 3 to 5 departments.",i:"5,000+ records digitised and queryable"},
+ {c:"Reporting & BI",t:"School performance and fees",a:"Academic, attendance, transport and fee collection data.",p:"Trend and anomaly analysis, shared through Tableau dashboards built with a fellow analyst.",i:"Clear insights for department heads and school leadership"},
+ {c:"Modelling",t:"Creator performance scoring",a:"Live-streaming creator performance on a social commerce platform.",p:"A weighted composite score across four KPIs, plus analysis of voucher incentives and A/B tests in an 11-chart Tableau dashboard.",i:"A single fair ranking and a measured view of incentive impact"}
+];
+function renderLab(el){
+  const cats=["All",...new Set(LAB.map(l=>l.c))];let cur="All";
+  el.innerHTML=`<p class="lead">Dashboards are the output. This is how I get there: the question, the approach, and what changed for the business. Open any card for detail.</p><div class="chips" id="labF"></div><div id="labList" style="margin-top:12px"></div>`;
+  cats.forEach(c=>{const b=document.createElement("button");b.type="button";b.className="chip dark"+(c==="All"?" on":"");b.textContent=c;b.addEventListener("click",()=>{cur=c;el.querySelectorAll("#labF .chip").forEach(x=>x.classList.toggle("on",x.textContent===c));draw();beep(700,.04)});$("#labF").appendChild(b)});
+  function draw(){
+    $("#labList").innerHTML=LAB.filter(l=>cur==="All"||l.c===cur).map((l,k)=>`<div class="acc"><button type="button" aria-expanded="false"><b>${l.t}</b><span class="cat">${l.c}</span><span class="pm">+</span></button><div class="body" hidden><div class="k">What I analysed</div><p>${l.a}</p><div class="k">Approach</div><p>${l.p}</p><div class="k">Business impact</div><div class="impact">${l.i}</div></div></div>`).join("");
+    $("#labList").querySelectorAll(".acc>button").forEach(b=>b.addEventListener("click",()=>{const body=b.nextElementSibling,o=body.hidden;body.hidden=!o;b.setAttribute("aria-expanded",o);b.querySelector(".pm").textContent=o?"–":"+";beep(o?620:480,.05)}));
+  }
+  draw();
+}
+
+/* ================= INVENTORY ================= */
+const INV=[
+ {t:"Workforce Management Database",m:"Supabase · PostgreSQL · Tableau Public",c:"var(--teal)",ic:I.db,g:"⋈",tag:"A database that knows who is rostered, and who showed up.",
+  prob:"I wanted to go deeper on SQL than reporting queries allow: designing a real relational model from nothing.",
+  did:"Designed and built an 8-table relational database in Supabase (PostgreSQL) covering departments, employees, shifts, rosters and attendance, then connected a Tableau Public dashboard on top.",
+  res:"A portfolio-grade database and dashboard built end to end, May 2026.",schema:true,link:["View GitHub","https://github.com/Yashisha"]},
+ {t:"Social Commerce Creator Performance",m:"Tableau Public · KPI modelling",c:"var(--orange)",ic:I.chart,g:"Σ",tag:"Who is actually performing, once you weigh it fairly.",
+  prob:"Live-streaming creators were hard to compare: each looked strong on a different metric, and incentive effects were unclear.",
+  did:"Built a weighted composite score across four KPIs and an 11-chart Tableau Public dashboard, quantifying voucher incentives and A/B test results.",
+  res:"One defensible ranking, and evidence on which incentives moved performance. April 2026."},
+ {t:"Machine Downtime Analytics",m:"Deloitte · Forage simulation",c:"var(--pink)",ic:I.gear,g:"⏱",tag:"Factory telemetry, turned into a downtime story.",
+  prob:"A simulated enterprise client needed visibility into factory machine downtime from raw telemetry.",
+  did:"Developed a Tableau dashboard on downtime telemetry data, following Deloitte's real project methodology.",
+  res:"Completed the Deloitte Data Analytics Virtual Experience on Forage, March 2026."},
+ {t:"CFAA Client Services Build",m:"Jira Service Management · Live work",c:"var(--yellow)",ic:I.flow,g:"→",tag:"Two tools in, one system of record out.",
+  prob:"Client services records lived across Asana and Monday.com, with licences about to expire.",
+  did:"Designed the full JSM structure in one week, built and tested automations, migrated historical records and produced the RTM, stakeholder deck and training quiz.",
+  res:"A single workflow from booking to invoicing, ready for UAT and handover.",stats:[["11","custom fields"],["10","workflow statuses"],["7","request queues"],["5","automation rules"]]},
+ {t:"Safety Reporting Automation",m:"SQL · Power Query · Python · Power BI",c:"var(--teal)",ic:I.bolt,g:"⚡",tag:"Three days of copy-paste, now four hours.",
+  prob:"Weekly and monthly safety and operational reports were built manually from several sources, taking about 3 days each cycle.",
+  did:"Engineered extraction in SQL, shaping in Power Query and cleansing in pandas, feeding Power BI dashboards for operations and safety stakeholders.",
+  res:"Turnaround cut from 3 days to 4 hours, an 87.5% reduction."},
+ {t:"School Records Digitisation",m:"MS Access · Excel · Tableau",c:"var(--pink)",ic:I.table,g:"▦",tag:"From filing cabinets to queryable data.",
+  prob:"Every school record, from exams to transport to fees, was on paper.",
+  did:"Digitised 5,000+ records into Access and Excel, created entry templates and validation rules across departments, then built Tableau dashboards with a fellow analyst.",
+  res:"A reliable data foundation for all later reporting at the school."}
+];
+function renderInv(el,opts){
+  if(opts.item!=null)return renderItem(el,opts.item);
+  $("#mBack").hidden=true;
+  el.innerHTML=`<p class="lead">Live work and personal projects. Pick an item for the full case study.</p><div class="inv">${INV.map((p,k)=>`<button class="item" type="button" data-k="${k}"><span class="ico" style="background:${p.c}">${p.ic}</span><b>${p.t}</b><small>${p.m}</small></button>`).join("")}</div>`;
+  el.querySelectorAll(".item").forEach(b=>b.addEventListener("click",()=>{renderItem(el,+b.dataset.k);el.scrollTop=0;beep(560)}));
+}
+function renderItem(el,k){
+  const p=INV[k];$("#mTitle").textContent=p.t;$("#mBack").hidden=false;
+  $("#mBack").onclick=()=>{$("#mTitle").textContent=AREAS[3].title;renderInv(el,{});beep(480)};
+  el.innerHTML=`<button class="btn w" type="button" id="bInv">${I.back} Back to inventory</button>
+  <h3 style="margin-top:16px">${p.t}</h3><p class="lead">${p.m}</p>
+  ${p.link?`<a class="btn o" href="${p.link[1]}" target="_blank" rel="noopener">${p.link[0]} ${I.ext}</a>`:""}
+  <div class="cs-hero"><div class="k">Case study</div><h3>${p.t.split(" ").slice(0,2).join(" ")}</h3><p>${p.tag}</p><span class="glyph">${p.g}</span></div>
+  ${p.stats?`<div class="stats">${p.stats.map(s=>`<div class="stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join("")}</div>`:""}
+  ${p.schema?`<h3>Schema</h3><div class="schema"><span>departments</span><span>employees</span><span>shifts</span><span>rosters</span><span>attendance</span><span class="more">+ 3 supporting tables</span></div>`:""}
+  <h3>Problem</h3><p>${p.prob}</p><h3>What I did</h3><p>${p.did}</p><h3>Result</h3><div class="impact">${p.res}</div>`;
+  $("#bInv").addEventListener("click",()=>$("#mBack").click());
+}
+
+/* ================= SKILL TREE ================= */
+/* competency: [name, level %, categories it belongs to] */
+const CORE=[["SQL and data modelling",90,["Query"]],["Data cleaning with Python (pandas)",88,["Query","Data tools"]],["Power BI and Tableau dashboards",90,["BI"]],["Power Query and reporting automation",92,["BI","Data tools","AI"]],["Requirements and stakeholder work",86,["Collaboration"]],["Jira Service Management admin and workflows",85,["Collaboration","AI"]]];
+/* tool: [name, category, where it was used] */
+const TOOLS=[
+ ["SQL","Query",["UGL Resources","Pacific Intl School","Workforce DB"]],
+ ["PostgreSQL","Query",["Workforce DB"]],
+ ["Python (pandas)","Query",["UGL Resources","Python for Beginners (QA)"]],
+ ["MS Access SQL","Query",["Pacific Intl School"]],
+ ["Power BI","BI",["UGL Resources","PL-300 in progress"]],
+ ["Tableau","BI",["Pacific Intl School","Workforce DB","Creator analysis","Deloitte (Forage)"]],
+ ["Power Query","BI",["UGL Resources","Pacific Intl School"]],
+ ["Excel","Data tools",["UGL Resources","Pacific Intl School"]],
+ ["Google Sheets","Data tools",["Reporting and tracking"]],
+ ["Google Forms","Data tools",["Data collection"]],
+ ["MS Access","Data tools",["Pacific Intl School"]],
+ ["Dynamics 365 ERP","Data tools",["Data extraction and reporting"]],
+ ["myosh","Data tools",["UGL Resources"]],
+ ["Supabase","Data tools",["Workforce DB"]],
+ ["Jira","Collaboration",["CFAA","UGL Resources"]],
+ ["Jira Service Management","Collaboration",["CFAA"]],
+ ["Confluence","Collaboration",["UGL Resources"]],
+ ["Kanban","Collaboration",["UGL Resources","CFAA"]],
+ ["Jira AI","AI",["UGL Resources"]],
+ ["Microsoft Copilot","AI",["UGL Resources"]],
+ ["Claude","AI",["Claude 101 and Claude Code 101"]]
+];
+function renderSkills(el){
+  el.innerHTML=`<h3>Core competencies</h3><div id="core">${CORE.map((c,k)=>`<div class="sk" data-k="${k}"><div class="top"><span>${c[0]}</span><span class="pct">0%</span></div><div class="bar"><i></i></div></div>`).join("")}</div>
+  <h3>Skills and tools</h3><p class="lead" style="font-size:13px">Pick a category, then tap any tool to see where I've used it.</p><div class="chips" id="skF"></div><div class="tags" id="skList"></div><div id="toolCard"></div>
+  <h3>Services</h3><div class="svc"><div><b>Dashboards and BI</b><span>From KPI definitions to Power BI and Tableau reports teams open every day.</span></div><div><b>Reporting automation</b><span>Replace manual copy-paste with pipelines that run on their own.</span></div><div><b>Data migration and clean-up</b><span>Move records between systems and fix the structure on the way.</span></div></div>`;
+  let cur="All",pick=null,timers=[];
+  // animate bars + count up the % so every filter change is visible
+  function bars(){
+    timers.forEach(t=>{clearTimeout(t);clearInterval(t)});timers=[];
+    el.querySelectorAll("#core .sk").forEach(row=>{
+      const c=CORE[+row.dataset.k],hit=cur==="All"||c[2].includes(cur),i=row.querySelector("i"),p=row.querySelector(".pct");
+      row.classList.toggle("dim",!hit);i.style.width="0%";p.textContent=hit?"0%":"—";
+      if(!hit)return;
+      timers.push(setTimeout(()=>{i.style.width=c[1]+"%";let n=0;const t=setInterval(()=>{n=Math.min(c[1],n+4);p.textContent=n+"%";if(n>=c[1])clearInterval(t)},18);timers.push(t)},60));
+    });
+  }
+  function list(){
+    $("#skList").innerHTML=TOOLS.filter(t=>cur==="All"||t[1]===cur).map(t=>`<button type="button" class="tag pick${pick===t[0]?" on":""}">${t[0]}</button>`).join("");
+    $("#skList").querySelectorAll(".pick").forEach(b=>b.addEventListener("click",()=>{pick=pick===b.textContent?null:b.textContent;list();card();beep(pick?820:480,.06,"triangle")}));
+  }
+  function card(){
+    const t=TOOLS.find(x=>x[0]===pick);if(!t){$("#toolCard").innerHTML="";return}
+    const depth=Math.min(100,t[2].length*30+10);
+    $("#toolCard").innerHTML=`<div class="tool-card"><div class="top" style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><b>${t[0]}</b><span class="cat">${t[1]}</span></div><div class="k" style="margin-top:10px">Where I've used it</div><div class="used">${t[2].map(u=>`<span>${u}</span>`).join("")}</div><div class="k" style="margin-top:12px">Used across ${t[2].length} ${t[2].length===1?"role or project":"roles and projects"}</div><div class="bar" style="margin-top:4px"><i style="width:0"></i></div></div>`;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{const i=$("#toolCard .bar i");if(i)i.style.width=depth+"%"}));
+  }
+  const cats=["All",...new Set(TOOLS.map(t=>t[1]))];
+  cats.forEach(c=>{const b=document.createElement("button");b.type="button";b.className="chip dark"+(c==="All"?" on":"");b.textContent=c;b.addEventListener("click",()=>{cur=c;pick=null;$("#skF").querySelectorAll(".chip").forEach(x=>x.classList.toggle("on",x.textContent===c));list();card();bars();beep(700,.05)});$("#skF").appendChild(b)});
+  list();bars();
+}
+
+/* ================= JOIN PARTY ================= */
+/* "Send email" only works when the page is its own website (e.g. GitHub Pages), not inside a preview frame */
+function hosted(){try{return window.top===window.self}catch(e){return false}}
+function renderParty(el){
+  el.innerHTML=`<p class="lead">Got reporting that still takes days, or data spread across too many tools? Tell me about it and let's fix it.</p>
+  <div class="party">
+    <div class="card" style="background:var(--cream)"><b>Email</b><span>The fastest way to reach me.</span><span class="val">yashasvi.jpr@icloud.com</span><div class="acts">${hosted()?`<a class="btn o" href="mailto:yashasvi.jpr@icloud.com">Send email</a>`:""}<button class="btn ${hosted()?"w":"o"}" type="button" id="cpE">${I.copy} Copy email</button></div></div>
+    <div class="card"><b>LinkedIn</b><span>Full profile and track record.</span><span class="val">in/yashasha</span><div class="acts"><a class="btn" href="https://linkedin.com/in/yashasha" target="_blank" rel="noopener">Open LinkedIn ${I.ext}</a></div></div>
+    <div class="card"><b>GitHub</b><span>SQL and portfolio projects.</span><span class="val">Yashisha</span><div class="acts"><a class="btn w" href="https://github.com/Yashisha" target="_blank" rel="noopener">Open GitHub ${I.ext}</a></div></div>
+  </div>
+  <p class="lead" style="font-size:13px">Based in Perth, Western Australia. Open to onsite and hybrid Data Analyst and BI roles.</p>`;
+  copyBtn($("#cpE"),"yashasvi.jpr@icloud.com");
+}
+</script>
+
+</body>
+</html>
